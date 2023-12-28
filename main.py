@@ -43,25 +43,25 @@ print(generaterrest(2, 2))
 duplicates = {}
 
 def W(r,k):
-    N = 1
+    N = k
 
     while True: 
-        numbers = permutations([i +1 for i in range(N)])
+        numbers = list(permutations([i +1 for i in range(N)]))
         sizes = generaterrest(N, r)
         found = True
         #print(list(numbers), sizes)
-        for (number, size) in iteratecombined(list(numbers), sizes):
-            inddeling = [[] for _ in size]
+        for (number, size) in iteratecombined(numbers, sizes):
             lastindex = 0
-            for i, v in enumerate(size):
-                inddeling[i] = list(number[lastindex:lastindex+v])
+            inddeling = []
+            for v in size:
+                group = list(number[lastindex:lastindex+v])
+                if has_arithmetic_progression(group, k):
+                    inddeling.append(group)
                 lastindex = v
-            bla = list(filter(lambda x: x, map(lambda group: has_arithmetic_progression(group, k), inddeling)))
-            if len(bla) != 0:
-                pass
-            else:
+
+            if len(inddeling) == 0:
                 found = False
-                #break
+                break
 
         if found:
             return N
