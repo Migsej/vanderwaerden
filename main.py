@@ -18,13 +18,20 @@ def generaterrest(sum, length):
  
     if length  - 1 == 0:
         return [[sum]]
+
     for start in range(sum + 1):
         rests = generaterrest(sum - start, length - 1)
         for i in rests:
-            end  = [start]    
+            end = [start]    
             end.extend(i)
             result.append(end)
-    return result
+    uniqueresult = []
+    for i in range(len(result)):
+        result[i].sort()
+        if result[i] not in uniqueresult:
+            uniqueresult.append(result[i])
+
+    return uniqueresult
    
 def iteratecombined(numbers, sizes):
     for size in sizes:
@@ -33,6 +40,7 @@ def iteratecombined(numbers, sizes):
 
 print(generaterrest(2, 2))
 
+duplicates = {}
 
 def W(r,k):
     N = 1
@@ -48,13 +56,16 @@ def W(r,k):
             for i, v in enumerate(size):
                 inddeling[i] = list(number[lastindex:lastindex+v])
                 lastindex = v
-
-            bla = list(filter(lambda x: x, map(lambda group: has_arithmetic_progression(group, k), inddeling)))
-            if len(bla) > 0:
+            represented = repr(inddeling)
+            if represented in duplicates:
+                bla = duplicates[represented]
+            else:
+                bla = list(filter(lambda x: x, map(lambda group: has_arithmetic_progression(group, k), inddeling)))
+            if len(bla) != 0:
                 pass
             else:
                 found = False
-                break
+                #break
 
         if found:
             return N
