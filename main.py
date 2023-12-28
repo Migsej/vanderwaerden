@@ -56,11 +56,7 @@ def W(r,k):
             for i, v in enumerate(size):
                 inddeling[i] = list(number[lastindex:lastindex+v])
                 lastindex = v
-            represented = repr(inddeling)
-            if represented in duplicates:
-                bla = duplicates[represented]
-            else:
-                bla = list(filter(lambda x: x, map(lambda group: has_arithmetic_progression(group, k), inddeling)))
+            bla = list(filter(lambda x: x, map(lambda group: has_arithmetic_progression(group, k), inddeling)))
             if len(bla) != 0:
                 pass
             else:
