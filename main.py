@@ -2,7 +2,7 @@ from itertools import permutations, combinations
 
 def has_arithmetic_progression(group, k):
     group.sort()
-    for i in list(combinations(group, k)):
+    for i in combinations(group, k):
         step = i[1] - i[0]
         for j in range(2, k):
             if i[j] - i[j - 1] != step:
