@@ -1,7 +1,7 @@
-from itertools import permutations, combinations
+from itertools import permutations, combinations, product
 
 def has_arithmetic_progression(group, k):
-    group.sort()
+    group = sorted(group)
     for i in combinations(group, k):
         step = i[1] - i[0]
         for j in range(2, k):
@@ -14,33 +14,26 @@ def has_arithmetic_progression(group, k):
 
 
 def generaterrest(sum, length):
-    result = []
- 
     if length  - 1 == 0:
         return [[sum]]
 
+    result = []
     for start in range(sum + 1):
         rests = generaterrest(sum - start, length - 1)
         for i in rests:
             end = [start]    
             end.extend(i)
-            result.append(end)
-    uniqueresult = []
-    for i in range(len(result)):
-        result[i].sort()
-        if result[i] not in uniqueresult:
-            uniqueresult.append(result[i])
-
-    return uniqueresult
+            end.sort()
+            if end not in result:
+                result.append(end)
+    return result
    
 def iteratecombined(numbers, sizes):
     for size in sizes:
         for number in numbers:
             yield (number, size)
 
-print(generaterrest(2, 2))
 
-duplicates = {}
 
 def W(r,k):
     N = k
@@ -49,17 +42,16 @@ def W(r,k):
         numbers = list(permutations([i +1 for i in range(N)]))
         sizes = generaterrest(N, r)
         found = True
-        #print(list(numbers), sizes)
-        for (number, size) in iteratecombined(numbers, sizes):
+        for (number, size) in product(numbers, sizes):
             lastindex = 0
-            inddeling = []
+            inddeling = 0
             for v in size:
-                group = list(number[lastindex:lastindex+v])
+                group = number[lastindex:lastindex+v]
                 if has_arithmetic_progression(group, k):
-                    inddeling.append(group)
+                    inddeling += 1
                 lastindex = v
 
-            if len(inddeling) == 0:
+            if inddeling == 0:
                 found = False
                 break
 
